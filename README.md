@@ -4,6 +4,8 @@ A collection of Frida scripts for Android security research and runtime instrume
 
 ## Scripts
 
+Scripts are located in `.claude/skills/frida-android/scripts/`:
+
 | Script | Description |
 |--------|-------------|
 | `catch_secrets.js` | Intercept crypto keys, IVs, auth headers, tokens, and SharedPreferences secrets at runtime |
@@ -31,13 +33,13 @@ Captures cryptographic operations, authentication headers, and stored secrets:
 
 ```bash
 # Spawn app and attach
-frida -U -l catch_secrets.js -f com.target.app
+frida -U -l .claude/skills/frida-android/scripts/catch_secrets.js -f com.target.app
 
 # Attach to running app
-frida -U -l catch_secrets.js -n com.target.app
+frida -U -l .claude/skills/frida-android/scripts/catch_secrets.js -n com.target.app
 
 # Save output to file
-frida -U -l catch_secrets.js -f com.target.app | tee output.log
+frida -U -l .claude/skills/frida-android/scripts/catch_secrets.js -f com.target.app | tee output.log
 ```
 
 **What it hooks:**
@@ -55,13 +57,13 @@ Spoofs GPS location for the target app:
 
 ```bash
 # Default location (Paris)
-frida -U -l fake_location.js -f com.target.app
+frida -U -l .claude/skills/frida-android/scripts/fake_location.js -f com.target.app
 
 # Custom location (New York)
-frida -U -l fake_location.js -f com.target.app -P '{"lat": 40.7128, "lng": -74.0060}'
+frida -U -l .claude/skills/frida-android/scripts/fake_location.js -f com.target.app -P '{"lat": 40.7128, "lng": -74.0060}'
 
 # With altitude and accuracy
-frida -U -l fake_location.js -f com.target.app -P '{"lat": 40.7128, "lng": -74.0060, "alt": 10, "acc": 5}'
+frida -U -l .claude/skills/frida-android/scripts/fake_location.js -f com.target.app -P '{"lat": 40.7128, "lng": -74.0060, "alt": 10, "acc": 5}'
 ```
 
 ## Installation as Claude Code Skill
