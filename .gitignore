@@ -1,0 +1,22 @@
+# Logs and captured output (may contain secrets)
+*.log
+capture.log
+secrets.log
+output.log
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Analysis reports (may contain real app data)
+*_analysis.md
+*_security_analysis.md
+
+# Temp files
+*.tmp
+*.txt
+
+# OS files
+.DS_Store
+Thumbs.db
