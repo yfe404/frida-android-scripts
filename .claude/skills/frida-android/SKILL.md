@@ -156,6 +156,48 @@ curl "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=API_KEY" \
 curl "https://PROJECT.firebaseio.com/.json"
 ```
 
+### When Frida Fails: Magisk DenyList
+
+Some apps have native-level anti-tampering that detects Frida injection before scripts can run. Signs of this:
+- App crashes immediately when spawned with Frida
+- Frida server process detection
+- Memory modification detection
+
+**Solution: Use Magisk DenyList instead of runtime hooking**
+
+```bash
+# Add app to DenyList
+magisk --denylist add <package_name>
+
+# Enable enforcement
+magisk --denylist enable
+
+# Reboot may be required
+adb reboot
+```
+
+**Why DenyList Works When Frida Doesn't**
+
+| Frida Approach | Magisk DenyList |
+|----------------|-----------------|
+| Injects after app starts | Hides root before app loads |
+| Detectable in memory | Uses Zygisk to create clean process |
+| Modifies runtime | No modifications to app process |
+| App sees frida strings | App sees stock Android |
+
+DenyList creates an isolated environment where:
+- `/system/bin/su` doesn't exist
+- Magisk files are hidden from `/proc`
+- Root packages are invisible to PackageManager
+- Build properties appear stock
+
+The app's root check runs in this "clean" environment and finds nothing suspicious.
+
+**Trade-off**: You lose Frida hooking capability, but the app runs. Use this when you only need to:
+- Capture traffic (use HTTP Toolkit instead)
+- Test API functionality
+- Observe normal app behavior
+
 ---
 
 ## Phase 4: Dynamic Analysis
